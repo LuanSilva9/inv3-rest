@@ -10,7 +10,7 @@ class SessionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Object
     {
         return Session::all();
     }
@@ -24,7 +24,7 @@ class SessionController extends Controller
             "name" => "required"
         ]);
 
-        if(Session::insert(["id" => $request->id, "name" => $request->name])) {
+        if(Session::insert(["name" => $request->name])) {
             return response()->json([ "Server" => "Sessão Criada ".$request->name]);
         };
 
@@ -50,40 +50,40 @@ class SessionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request)
+    public function edit_name(Request $request, $id_session)
     {
-        $id_session = $request->id_session;
-        $new_name = $request->new_name;
-
-        $session = Session::find($id_session);
-
-        if(!$session) {
-            return response()->json(["Server" => "Sessão Não encontrada"], 404);
-        }
-
-        if ($request->has('new_id')) {
-            $new_id = $request->new_id;
-            
-            if (Session::find($new_id)) {
-                return response()->json(["Server" => "ID já em uso"], 400);
-            }
+        $request->validate(['new' => 'required|string|max:255']);
     
-            $session->update(["id" => $new_id]);
-            
-            return response()->json(["Server" => "ID da sessao Alterado!"]);
+        $session = Session::find($id_session);
+        if ($session) {
+            $session->name = $request->new;
+            $session->save();
+            return response()->json(["Server" => "Nome atualizado para " . $request->new]);
         }
-
-        
-        if ($request->has('new_name')) {
-            $new_name = $request->new_name;
-
-            $session->update(["name" => $new_name]);
-
-            return response()->json(["Server" => "Nome da sessao Alterado!"]);
-        }
-
-        return response()->json(["Server" => "Credenciais Invalidas"], 400);
+    
+        return response()->json(["Server" => "Sessão não encontrada"], 404);
     }
+    
+    public function edit_id(Request $request, $id_session)
+    {
+        $request->validate(['new' => 'required|integer']);
+    
+        $session = Session::find($id_session);
+        if ($session) {
+            // Para atualizar o ID, você precisa criar um novo registro
+            $newSession = $session->replicate(); // Cria uma cópia do registro
+            $newSession->id = $request->new; // Atualiza o ID
+            $newSession->save(); // Salva o novo registro
+    
+            // Opcional: excluir o registro antigo
+            $session->delete();
+    
+            return response()->json(["Server" => "ID atualizado para " . $request->new]);
+        }
+    
+        return response()->json(["Server" => "Sessão não encontrada"], 404);
+    }
+    
 
     /**
      * Update the specified resource in storage.
