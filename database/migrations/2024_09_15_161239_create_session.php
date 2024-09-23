@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('session', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('session_id')->primary();
             $table->string("name");
+            $table->string("icon");
+            $table->string("color");
         });
     }
 
