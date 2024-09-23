@@ -9,13 +9,16 @@ class Session extends Model
 {
     use HasFactory;
 
-    public $table = "Session";
+    protected $table = "session";
     public $timestamps = false;
-    
-    protected $csrf = false;
 
     protected $fillable = [
-        "id",
-        "name"
+        "name",
+        "icon",
+        "color"
     ];
+
+    public function investiment() {
+        return $this->hasMany(Investiment::class, 'session_id');
+    }
 }
