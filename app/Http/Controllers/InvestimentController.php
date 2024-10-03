@@ -82,6 +82,13 @@ class InvestimentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if(Investiment::find($id)) {
+            Investiment::destroy($id);
+
+            return response()->json(["Server" => "O Investimento foi apagado com sucesso!"]);
+        }
+
+
+        return response()->json(["Server" => "Erro ao tentar deletar o investimento"], 500);
     }
 }
