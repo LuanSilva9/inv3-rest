@@ -24,4 +24,5 @@ Route::prefix('investiment')->name('investiment.')->group(function() {
     Route::post('/new', [InvestimentController::class, 'create'])->name('create');
     Route::get('/view/{id}', [InvestimentController::class, 'show'])->name('show');
     Route::put('/edit/{id}', [InvestimentController::class, 'edit'])->name('edit');
+    Route::delete('/destroy/{id}', [InvestimentController::class, 'destroy'])->name('destroy');
 });
