@@ -21,4 +21,7 @@ Route::prefix('session')->name('session.')->group(function () {
 
 Route::prefix('investiment')->name('investiment.')->group(function() {
     Route::get('/view', [InvestimentController::class, 'index'])->name('view');
+    Route::post('/new', [InvestimentController::class, 'create'])->name('create');
+    Route::get('/view/{id}', [InvestimentController::class, 'show'])->name('show');
+    Route::put('/edit/{id}', [InvestimentController::class, 'edit'])->name('edit');
 });
