@@ -18,9 +18,31 @@ class InvestimentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validate = $request->validate([
+            "name_investiment" => "required",
+            "current_investiment" => "required",
+            "session_id" => "required",
+        ]);
+    
+        try {
+        
+            Investiment::insert([
+                "name_investiment" => $request->name_investiment,
+                "current_investiment" => $request->current_investiment,
+                "session_id" => $request->session_id,
+                "default_color" => $request->default_color
+            ]);
+    
+            return response()->json(["server" => "Dados inseridos com sucesso!"], 201);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                "server" => "Erro ao inserir os dados",
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -36,13 +58,13 @@ class InvestimentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Investiment::find($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
         //
     }
