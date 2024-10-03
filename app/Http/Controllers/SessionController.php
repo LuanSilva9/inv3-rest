@@ -73,12 +73,10 @@ class SessionController extends Controller
     
         $session = Session::find($id_session);
         if ($session) {
-            // Para atualizar o ID, você precisa criar um novo registro
-            $newSession = $session->replicate(); // Cria uma cópia do registro
-            $newSession->id = $request->new; // Atualiza o ID
-            $newSession->save(); // Salva o novo registro
+            $newSession = $session->replicate(); 
+            $newSession->id = $request->new; 
+            $newSession->save(); 
     
-            // Opcional: excluir o registro antigo
             $session->delete();
     
             return response()->json(["Server" => "ID atualizado para " . $request->new]);
