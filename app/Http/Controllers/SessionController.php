@@ -24,11 +24,14 @@ class SessionController extends Controller
             "name" => "required"
         ]);
 
-        if(Session::insert(["name" => $request->name])) {
-            return response()->json([ "Server" => "Sessão Criada ".$request->name]);
-        };
+        try {
+            Session::insert(["name" => $request->name]);
 
-        return response()->json([ "Server" => "Erro ao criar Objeto"], 400);
+            return response()->json([ "Server" => "Sessão Criada ".$request->name]);
+
+        } catch(\Exception $e) {
+            return response()->json([ "Server" => "Erro ao criar Sessão", "error" => $e.getMessage()], 500);
+        }
     }
 
     /**
