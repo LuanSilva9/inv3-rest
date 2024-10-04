@@ -40,7 +40,7 @@ class InvestimentController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 "server" => "Erro ao inserir os dados",
-                "error" => $e->getMessage()
+                "error" => $e.getMessage()
             ], 500);
         }
     }
@@ -66,7 +66,34 @@ class InvestimentController extends Controller
      */
     public function edit(Request $request)
     {
-        //
+        $request->validate([
+            "name_investiment" => "required",
+            "current_investiment" => "required",
+            "session_id" => "required",
+            "default_color" => "required",
+            "default_icon" => "required"
+        ]);
+
+        $finderInvestiment = Investiment::find($request->id);
+
+        if(!$finderInvestiment) return response()->json(["Server" => "Registro não encontrado"], 404);
+
+        if($request->current_value < 0 || $request->current_value > 99999) return response()->json(["Server" => "O valor de investimento não é conhecido"], 400);
+
+
+        try {
+            $finderInvestiment->name_investiment = $request->name_investiment;
+            $finderInvestiment->current_investiment = $request->current_investiment;
+            $finderInvestiment->default_color = $request->default_color;
+            $finderInvestiment->default_icon = $request->default_icon;
+
+            $finderInvestiment->save();
+
+            return response()->json(["Server" => "Registro alterado com sucesso!"]);
+        } catch(\Exception $e) {
+
+            return response()->json(["Server" => "Error", "Error" => $e.getMessage()]);
+        }
     }
 
     /**
