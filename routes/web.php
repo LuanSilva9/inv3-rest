@@ -7,10 +7,12 @@ use App\Http\Controllers\InvestimentController;
 
 
 Route::get('/', function () {
-    return "Inv3 API";
+    return "Hello, World!";
 });
 
 Route::prefix('session')->name('session.')->group(function () {
+    Route::get('/', function() { return redirect('session/view'); });
+
     Route::get('/view', [SessionController::class, 'index'])->name('view');
     Route::post('/new', [SessionController::class, 'create'])->name('create');
     Route::put('/edit/name/{id_session}', [SessionController::class, 'edit_name'])->name('edit_name');
@@ -20,6 +22,8 @@ Route::prefix('session')->name('session.')->group(function () {
 });
 
 Route::prefix('investiment')->name('investiment.')->group(function() {
+    Route::get('/', function() { return redirect('investiment/view'); });
+
     Route::get('/view', [InvestimentController::class, 'index'])->name('view');
     Route::post('/new', [InvestimentController::class, 'create'])->name('create');
     Route::get('/view/{id}', [InvestimentController::class, 'show'])->name('show');
