@@ -40,7 +40,7 @@ class InvestimentController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 "server" => "Erro ao inserir os dados",
-                "error" => $e.getMessage()
+                "error" => $e->getMessage()
             ], 500);
         }
     }
@@ -92,7 +92,7 @@ class InvestimentController extends Controller
             return response()->json(["Server" => "Registro alterado com sucesso!"]);
         } catch(\Exception $e) {
 
-            return response()->json(["Server" => "Error", "Error" => $e.getMessage()]);
+            return response()->json(["Server" => "Error", "Error" => $e->getMessage()]);
         }
     }
 

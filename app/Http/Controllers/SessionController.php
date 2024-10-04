@@ -30,7 +30,7 @@ class SessionController extends Controller
             return response()->json([ "Server" => "Sessão Criada ".$request->name]);
 
         } catch(\Exception $e) {
-            return response()->json([ "Server" => "Erro ao criar Sessão", "error" => $e.getMessage()], 500);
+            return response()->json([ "Server" => "Erro ao criar Sessão", "error" => $e->getMessage()], 500);
         }
     }
 
