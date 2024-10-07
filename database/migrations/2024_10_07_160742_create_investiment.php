@@ -16,10 +16,12 @@ return new class extends Migration
             $table->string('name_investiment');
             $table->unsignedBigInteger('current_investiment');
             $table->unsignedBigInteger('session_id');
+            $table->unsignedBigInteger("user_id");
             $table->string('default_color')->default("#ccc");
             $table->string('default_icon')->default("FaCoins");
             
             $table->foreign('session_id')->references('session_id')->on('session');
+            $table->foreign("user_id")->references("id")->on("users");
         });
     }
 
